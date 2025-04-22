@@ -2,13 +2,16 @@ from kirara_ai.workflow.core.block.registry import BlockRegistry
 from kirara_ai.workflow.implementations.blocks.im.basic import ExtractChatSender
 from kirara_ai.workflow.implementations.blocks.llm.basic import LLMResponseToText
 from kirara_ai.workflow.implementations.blocks.llm.image import SimpleStableDiffusionWebUI
+from kirara_ai.workflow.implementations.blocks.llm.tts import TTSCypherBlock
 from kirara_ai.workflow.implementations.blocks.memory.clear_memory import ClearMemory
 from kirara_ai.workflow.implementations.blocks.system.basic import (CurrentTimeBlock, TextBlock, TextConcatBlock,
                                                                     TextExtractByRegexBlock, TextReplaceBlock)
 
 from .game.dice import DiceRoll
 from .game.gacha import GachaSimulator
-from .im.messages import AppendIMMessage, GetIMMessage, IMMessageToText, SendIMMessage, TextToIMMessage
+from .game.cypher import Cypher
+from .game.randow_boy import RandomBoy
+from .im.messages import AppendIMMessage, GetIMMessage, IMMessageToText, SendIMMessage, TextToIMMessage, URLToMessageCypherBlock,DifyToMessageCypherBlock
 from .im.states import ToggleEditState
 from .llm.chat import ChatCompletion, ChatMessageConstructor, ChatResponseConverter, FunctionCalling
 from .memory.chat_memory import ChatMemoryQuery, ChatMemoryStore
@@ -36,6 +39,10 @@ def register_system_blocks(registry: BlockRegistry):
     registry.register("append_im_message", "internal", AppendIMMessage, "IM: 补充消息")
     registry.register("im_message_to_text", "internal", IMMessageToText, "IM: 消息转文本")
     registry.register("text_to_im_message", "internal", TextToIMMessage, "文本: 文本转消息")
+    registry.register("url_to_im_message", "internal", URLToMessageCypherBlock, "URL: URL转消息")
+    registry.register("dify_to_im_message", "internal", DifyToMessageCypherBlock, "Dify: Dify回答消息")
+    
+
 
     # LLM 相关 blocks
     registry.register("chat_memory_query", "internal", ChatMemoryQuery, "LLM: 查询记忆")
@@ -55,6 +62,7 @@ def register_system_blocks(registry: BlockRegistry):
     )
     registry.register("chat_memory_store", "internal", ChatMemoryStore, "LLM: 存储记忆")
     registry.register("llm_response_to_text", "internal", LLMResponseToText, "LLM: 响应转文本")
+    registry.register("tts", "internal", TTSCypherBlock, "TTS: 文本转语音")
 
     # 画图相关 blocks
     registry.register(
@@ -71,3 +79,7 @@ def register_system_blocks(registry: BlockRegistry):
     # 系统相关 blocks
     registry.register("generate_help", "system", GenerateHelp, "系统: 生成帮助")
     registry.register("clear_memory", "system", ClearMemory, "系统: 清空记忆")
+
+    # 自定义 blocks
+    registry.register("cypher_test", "game", Cypher, "游戏: cypher测试")
+    registry.register("cypher_test_randomboy", "game", RandomBoy, "游戏: 随机帅哥视频")

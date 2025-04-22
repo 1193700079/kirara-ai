@@ -56,3 +56,4 @@ class AsyncMemoryPersistence:
         self.running = False
         self.worker.join()
         self.persistence.flush()
+        

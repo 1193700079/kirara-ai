@@ -26,3 +26,5 @@ data/db
 .venv/
 uv.lock
 .mypy_cache/
+web/
+data/

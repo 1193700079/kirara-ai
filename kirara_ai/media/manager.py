@@ -81,8 +81,9 @@ class MediaManager:
         if url.startswith("file://"):
             async with aiofiles.open(url[7:], "rb") as f:
                 return await f.read()
-        async with AsyncSession(trust_env=True, timeout=3000) as session:
-            resp: Response = await session.get(url)
+        async with AsyncSession(trust_env=True, timeout=30000) as session:
+            resp: Response = await session.get(url, timeout=30,  # 设置超时时间为 30 秒
+            max_redirects=5)
             if resp.status_code != 200:
                 raise ValueError(f"Failed to download file from {url}, status: {resp.status_code}")
             return resp.content

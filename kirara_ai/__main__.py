@@ -11,7 +11,7 @@ def main():
     # 解析命令行参数
     parser = argparse.ArgumentParser(description='Kirara AI Chatbot Server')
     parser.add_argument('-H', '--host', help='覆盖服务监听地址')
-    parser.add_argument('-p', '--port', type=int, help='覆盖服务监听端口')
+    parser.add_argument('-p', '--port', type=int, help='覆盖服务监听端口',default=8080)
     args = parser.parse_args()
 
     container = init_application()
